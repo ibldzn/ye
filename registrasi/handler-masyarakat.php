@@ -10,11 +10,15 @@
   $res = mysqli_query($conn, "SELECT * FROM `masyarakat` WHERE nama='$nama'");
   if ($res->num_rows >= 1) {
     echo "<script>
-      alert('Anda sudah punya akun');
+      if (!alert('Anda sudah punya akun'))
+          window.location.href = './';
     </script>";
   }
   else {
     mysqli_query($conn, "INSERT INTO `masyarakat` VALUES ('$nik', '$nama', '$username', '$password', '$telp')");
-    header("location: ../login.php");
+    echo "<script>
+      if (!alert('Akun berhasil dibuat'))
+          window.location.href = '../login/';
+    </script>";
   }
 ?>
