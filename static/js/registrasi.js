@@ -6,8 +6,3 @@ document.querySelector('form').addEventListener('input', function (e) {
     cpassword.value != password.value ? 'Password tidak sesuai.' : ''
   );
 });
-
-document.querySelector('#nik').addEventListener('mousewheel', function (e) {
-  e.preventDefault();
-  this.blur();
-});
