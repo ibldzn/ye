@@ -49,7 +49,7 @@
   </nav>
   <div class="container mt-5 text-white">
     <h1 class="text-center mb-4">Dashboard</h1>
-    <table id="uwu" class="display text-dark">
+    <table id="table" class="display text-dark">
       <thead class="bg-secondary">
         <tr>
           <th scope="col">No</th>
@@ -137,7 +137,7 @@
   <script src="../static/datatables/datatables.min.js"></script>
   <script>
     $(document).ready( function () {
-      $('#uwu').DataTable({
+      $('#table').DataTable({
         lengthChange: false
       });
     } );
