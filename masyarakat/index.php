@@ -54,8 +54,8 @@
         <tr>
           <th scope="col">No</th>
           <th scope="col">Tanggal</th>
-          <th scope="col">Isi</th>
           <th scope="col">Status</th>
+          <th scope="col">More</th>
         </tr>
       </thead>
       <tbody>
@@ -67,8 +67,66 @@
             <tr>
               <td><?php echo $no++; ?></td>
               <td><?php echo $r["tgl_pengaduan"]; ?></td>
-              <td><?php echo $r["isi_laporan"]; ?></td>
               <td><?php echo $r["status"]; ?></td>
+              <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pengaduan-<?php echo $r["id_pengaduan"] ?>">
+                  Info
+                </button>
+                <a href="hapus.php?id=<?php echo $r["id_pengaduan"]; ?>" class="btn btn-danger">Hapus</a>
+                <div class="modal fade" id="pengaduan-<?php echo $r["id_pengaduan"]; ?>" aria-hidden="true" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Laporan</h5>
+                      </div>
+                      <div class="modal-body">
+                        <div class="d-flex flex-row">
+                          <div class="p-2">ID: </div>
+                          <div class="p-2"><?php echo $r["id_pengaduan"]; ?></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="p-2">Tanggal: </div>
+                          <div class="p-2"><?php echo $r["tgl_pengaduan"]; ?></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="p-2">NIK: </div>
+                          <div class="p-2"><?php echo $r["nik"]; ?></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="p-2">Isi: </div>
+                          <div class="p-2"><?php echo $r["isi_laporan"]; ?></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="p-2">Status: </div>
+                          <div class="p-2"><?php echo $r["status"]; ?></div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                          <button class="btn btn-primary" data-bs-target="#tanggapan-<?php echo $r["id_pengaduan"] ?>" data-bs-toggle="modal" data-bs-dismiss="modal">Lihat Tanggapan</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Second modal dialog -->
+                <div class="modal fade" id="tanggapan-<?php echo $r["id_pengaduan"] ?>" aria-hidden="true"tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Tanggapan</h5>
+                      </div>
+                      <?php
+                        $id_pengaduan = $r["id_pengaduan"];
+                        $tanggapan = mysqli_query($conn, "SELECT * FROM `tanggapan` WHERE `id_pengaduan`='$id_pengaduan'");
+                        echo "hello";
+                      ?>
+                      <div class="modal-footer">
+                        <button class="btn btn-primary" data-bs-target="#pengaduan-<?php echo $r["id_pengaduan"] ?>" data-bs-toggle="modal" data-bs-dismiss="modal">Kembali</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
             </tr>
           <?php } ?>
       </tbody>
