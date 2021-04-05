@@ -20,27 +20,69 @@
   <title>Pelayanan Masyarakat - Petugas</title>
 </head>
 <body class="bg-dark">
+  <div class="container-fluid">
+    <a href="../logout.php" class="float-end text-danger">Logout</a>
+  </div>
   <div class="container mt-5 text-white">
     <h1 class="text-center mb-4">List Pengaduan</h1>
     <table id="table" class="display text-dark">
       <thead class="bg-secondary">
         <tr>
           <th scope="col">No</th>
+          <th scope="col">NIK</th>
           <th scope="col">Nama</th>
           <th scope="col">Tanggal</th>
+          <th scope="col">Status</th>
           <th scope="col">More</th>
         </tr>
       </thead>
       <tbody>
         <?php
-          $pengaduan = mysqli_query($conn, "SELECT * FROM `pengaduan`");
-          $no = 1;
-          while ($r = mysqli_fetch_assoc($pengaduan)) { ?>
+          $no=1;
+          $query = mysqli_query($conn,"SELECT * FROM `pengaduan` INNER JOIN `masyarakat` ON pengaduan.nik=masyarakat.nik WHERE pengaduan.status='proses' ORDER BY pengaduan.id_pengaduan DESC");
+          while ($r = mysqli_fetch_assoc($query)) { ?>
             <tr>
               <td><?php echo $no++; ?></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><?php echo $r["nik"]; ?></td>
+              <td><?php echo $r["nama"]; ?></td>
+              <td><?php echo $r["tgl_pengaduan"]; ?></td>
+              <td><?php echo $r["status"]; ?></td>
+              <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tab-balas-<?php echo $r["id_pengaduan"]; ?>">
+                  Balas
+                </button>
+                <div class="modal fade" id="tab-balas-<?php echo $r["id_pengaduan"]; ?>" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <form action="balas.php" method="POST" class="form-inline">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modal-title">Balas</h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="d-flex flex-row">
+                            <div class="p-2">Nama: </div>
+                            <div class="p-2"><?php echo $r["nama"]; ?></div>
+                          </div>
+                          <div class="d-flex flex-row">
+                            <div class="p-2">Isi: </div>
+                            <div class="p-2"><?php echo $r["isi_laporan"]; ?></div>
+                          </div>
+                          <div class="form-floating mt-3">
+                            <input type="hidden" name="id_pengaduan" value="<?php echo $r["id_pengaduan"]; ?>">
+                            <textarea class="form-control" name="balasan" id="balasan"></textarea>
+                            <label class="text-muted" for="balasan">Tulis balasan anda</label>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                          <button type="submit" class="btn btn-primary">Kirim</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <a class="btn btn-danger" href="hapus.php?id_pengaduan=<?php echo $r["id_pengaduan"]; ?>">Hapus</a>
+              </td>
             </tr>
           <?php } ?>
       </tbody>
