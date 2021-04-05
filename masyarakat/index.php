@@ -40,13 +40,13 @@
           <li class="nav-item">
             <a href="pengaduan.php" role="tab" class="nav-link">Tulis Pengaduan</a>
           </li>
-          <li class="nav-item">
-            <a class="btn btn-outline-danger" href="../logout.php">Logout</a>
-          </li>
         </ul>
       </div>
     </div>
   </nav>
+  <div class="container-fluid">
+    <a href="../logout.php" class="float-end text-danger">Logout</a>
+  </div>
   <div class="container mt-5 text-white">
     <h1 class="text-center mb-4">Dashboard</h1>
     <table id="table" class="display text-dark">
@@ -80,26 +80,30 @@
                         <h5 class="modal-title" id="staticBackdropLabel">Laporan</h5>
                       </div>
                       <div class="modal-body">
-                        <div class="d-flex flex-row">
-                          <div class="p-2">ID: </div>
-                          <div class="p-2"><?php echo $r["id_pengaduan"]; ?></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                          <div class="p-2">Tanggal: </div>
-                          <div class="p-2"><?php echo $r["tgl_pengaduan"]; ?></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                          <div class="p-2">NIK: </div>
-                          <div class="p-2"><?php echo $r["nik"]; ?></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                          <div class="p-2">Isi: </div>
-                          <div class="p-2"><?php echo $r["isi_laporan"]; ?></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                          <div class="p-2">Status: </div>
-                          <div class="p-2"><?php echo $r["status"]; ?></div>
-                        </div>
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td>ID</td>
+                              <td><?php echo $r["id_pengaduan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Tanggal</td>
+                              <td><?php echo $r["tgl_pengaduan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>NIK</td>
+                              <td><?php echo $r["nik"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Isi</td>
+                              <td><?php echo $r["isi_laporan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Status</td>
+                              <td><?php echo $r["status"]; ?></td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                           <button class="btn btn-primary" data-bs-target="#tanggapan-<?php echo $r["id_pengaduan"] ?>" data-bs-toggle="modal" data-bs-dismiss="modal">Lihat Tanggapan</button>
@@ -115,11 +119,36 @@
                       <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Tanggapan</h5>
                       </div>
+                      <div class="modal-body">
                       <?php
                         $id_pengaduan = $r["id_pengaduan"];
-                        $tanggapan = mysqli_query($conn, "SELECT * FROM `tanggapan` WHERE `id_pengaduan`='$id_pengaduan'");
-                        echo "hello";
+                        $tanggapan = mysqli_query($conn, "SELECT * FROM `tanggapan` INNER JOIN `petugas` ON tanggapan.id_petugas=petugas.id_petugas WHERE tanggapan.id_pengaduan='$id_pengaduan'");
+                        if (mysqli_num_rows($tanggapan) > 0) {
+                          $r2 = mysqli_fetch_assoc($tanggapan);
+                          echo ("<table class=\"table table-bordered\">
+                                <tbody>
+                                  <tr>
+                                    <td>Nama petugas</td>
+                                    <td>". $r2["nama"] ."</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Tanggal tanggapan</td>
+                                    <td>". $r2["tgl_tanggapan"] ."</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Tanggapan</td>
+                                    <td>". $r2["tanggapan"] ."</td>
+                                  </tr>
+                                </tbody>
+                              </table>");
+                        }
+                        else {
+                          echo ("<div class=\"mx-auto\">
+                                  <span>Pengaduan kamu belum ditanggapi</span>
+                                </div>");
+                        }
                       ?>
+                      </div>
                       <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#pengaduan-<?php echo $r["id_pengaduan"] ?>" data-bs-toggle="modal" data-bs-dismiss="modal">Kembali</button>
                       </div>

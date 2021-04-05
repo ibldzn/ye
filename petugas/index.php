@@ -59,14 +59,18 @@
                           <h5 class="modal-title" id="modal-title">Balas</h5>
                         </div>
                         <div class="modal-body">
-                          <div class="d-flex flex-row">
-                            <div class="p-2">Nama: </div>
-                            <div class="p-2"><?php echo $r["nama"]; ?></div>
-                          </div>
-                          <div class="d-flex flex-row">
-                            <div class="p-2">Isi: </div>
-                            <div class="p-2"><?php echo $r["isi_laporan"]; ?></div>
-                          </div>
+                          <table>
+                            <tbody>
+                              <tr>
+                                <td>Nama</td>
+                                <td><?php echo $r["nama"]; ?></td>
+                              </tr>
+                              <tr>
+                                <td>Isi</td>
+                                <td><?php echo $r["isi_laporan"]; ?></td>
+                              </tr>
+                            </tbody>
+                          </table>
                           <div class="form-floating mt-3">
                             <input type="hidden" name="id_pengaduan" value="<?php echo $r["id_pengaduan"]; ?>">
                             <textarea class="form-control" name="balasan" id="balasan"></textarea>
