@@ -7,6 +7,16 @@
         window.location.href = '../login';
     </script>";
   }
+
+  if ($_SESSION["level"] != "petugas") {
+    session_unset();
+    session_destroy();
+
+    echo "<script>
+      if (!alert('Anda tidak memiliki akses ke halaman ini!'))
+        window.location.href = '../login';
+    </script>";
+  }
 ?>
 
 <!DOCTYPE html>

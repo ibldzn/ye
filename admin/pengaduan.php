@@ -68,47 +68,86 @@
               <td><?php echo $r["tgl_pengaduan"]; ?></td>
               <td><?php echo $r["status"]; ?></td>
               <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tab-balas-<?php echo $r["id_pengaduan"]; ?>">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pengaduan-<?php echo $r["id_pengaduan"] ?>">
                   Info
                 </button>
-                <div class="modal fade" id="tab-balas-<?php echo $r["id_pengaduan"]; ?>" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-                  <div class="modal-dialog">
+                <div class="modal fade" id="pengaduan-<?php echo $r["id_pengaduan"]; ?>" aria-hidden="true" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                      <form action="balas.php" method="POST" class="form-inline">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="modal-title">Balas</h5>
-                        </div>
-                        <div class="modal-body">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <td>Nama</td>
-                                <td><?php echo $r["nama"]; ?></td>
-                              </tr>
-                              <tr>
-                                <td>Isi</td>
-                                <td><?php echo $r["isi_laporan"]; ?></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <div class="form-floating mt-3">
-                            <input type="hidden" name="id_pengaduan" value="<?php echo $r["id_pengaduan"]; ?>">
-                            <textarea class="form-control" name="balasan" id="balasan"></textarea>
-                            <label class="text-muted" for="balasan">Tulis balasan anda</label>
-                          </div>
-                        </div>
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Laporan</h5>
+                      </div>
+                      <div class="modal-body">
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td>ID</td>
+                              <td><?php echo $r["id_pengaduan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Tanggal</td>
+                              <td><?php echo $r["tgl_pengaduan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>NIK</td>
+                              <td><?php echo $r["nik"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Isi</td>
+                              <td><?php echo $r["isi_laporan"]; ?></td>
+                            </tr>
+                            <tr>
+                              <td>Status</td>
+                              <td><?php echo $r["status"]; ?></td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                          <button type="submit" class="btn btn-primary">Kirim</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                          <button class="btn btn-primary" data-bs-target="#tanggapan-<?php echo $r["id_pengaduan"] ?>" data-bs-toggle="modal" data-bs-dismiss="modal">Lihat Tanggapan</button>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <a class="btn btn-danger" href="hapus.php?id_pengaduan=<?php echo $r["id_pengaduan"]; ?>">Hapus</a>
+                <div class="modal fade" id="tanggapan-<?php echo $r["id_pengaduan"] ?>" aria-hidden="true"tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Tanggapan</h5>
+                      </div>
+                      <div class="modal-body">
+                      <?php
+                        $id_pengaduan = $r["id_pengaduan"];
+                        $tanggapan = mysqli_query($conn, "SELECT * FROM `tanggapan` INNER JOIN `petugas` ON tanggapan.id_petugas=petugas.id_petugas WHERE tanggapan.id_pengaduan='$id_pengaduan'");
+                        if (mysqli_num_rows($tanggapan) > 0) {
+                          $r2 = mysqli_fetch_assoc($tanggapan);
+                          echo ("<table class=\"table table-bordered\">
+                                <tbody>
+                                  <tr>
+                                    <td>Nama petugas</td>
+                                    <td>". $r2["nama"] ."</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Tanggal tanggapan</td>
+                                    <td>". $r2["tgl_tanggapan"] ."</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Tanggapan</td>
+                                    <td>". $r2["tanggapan"] ."</td>
+                                  </tr>
+                                </tbody>
+                              </table>");
+                        }
+                        else {
+                          echo ("<div class=\"mx-auto\">
+                                  <span>Pengaduan ini belum ditanggapi</span>
+                                </div>");
+                        }
+                    ?>
               </td>
             </tr>
-          <?php } ?>
+            <?php } ?>
       </tbody>
     </table>
   </div>

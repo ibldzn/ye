@@ -21,11 +21,13 @@
   else if ($cek2 > 0) {
     if($data2["level"] == "admin") {
       $_SESSION["username"] = $username;
+      $_SESSION["level"] = "admin";
       $_SESSION["data"] = $data2;
       header("location: ../admin/");
     }
     else if ($data2["level"] == "petugas") {
       $_SESSION["username"] = $username;
+      $_SESSION["level"] = "petugas";
       $_SESSION["data"] = $data2;
       header("location: ../petugas/");
     }

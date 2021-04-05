@@ -8,10 +8,13 @@
     </script>";
   }
 
-  if ($_SESSION["data"]["level"] != "admin") {
+  if ($_SESSION["level"] != "admin") {
+    session_unset();
+    session_destroy();
+
     echo "<script>
       if (!alert('Anda tidak punya akses ke halaman ini!'))
-        window.location.href = './';
+        window.location.href = '../login';
     </script>";
   }
 ?>

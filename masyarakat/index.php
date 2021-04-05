@@ -40,13 +40,13 @@
           <li class="nav-item">
             <a href="pengaduan.php" role="tab" class="nav-link">Tulis Pengaduan</a>
           </li>
+          <li class="nav-item">
+            <a class="btn btn-danger" href="../logout.php">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
-  <div class="container-fluid">
-    <a href="../logout.php" class="float-end text-danger">Logout</a>
-  </div>
   <div class="container mt-5 text-white">
     <h1 class="text-center mb-4">Dashboard</h1>
     <table id="table" class="display text-dark">
@@ -112,7 +112,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- Second modal dialog -->
                 <div class="modal fade" id="tanggapan-<?php echo $r["id_pengaduan"] ?>" aria-hidden="true"tabindex="-1">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
